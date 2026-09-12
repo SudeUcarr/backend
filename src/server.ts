@@ -30,3 +30,23 @@ server.listen(port, host, () => {
   console.log(`KampüsKit API: http://${host}:${typeof address === 'object' && address ? address.port : port}`)
 })
 for (const signal of ['SIGINT', 'SIGTERM'] as const) process.on(signal, () => server.close(() => process.exit(0)))
+
+if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  const {createClient} = await import('@supabase/supabase-js')
+  const {processReminders} = await import('./modules/reminders/service.ts')
+  const admin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+    auth: {persistSession: false, autoRefreshToken: false}
+  })
+  const interval = setInterval(async () => {
+    try {
+      await processReminders(admin, {
+        resendApiKey: process.env.RESEND_API_KEY,
+        appUrl: process.env.APP_ORIGIN || 'http://127.0.0.1:5173',
+        simulate: !process.env.RESEND_API_KEY
+      })
+    } catch {
+      // Ignore background processing errors to preserve server uptime.
+    }
+  }, 60000)
+  interval.unref?.()
+}

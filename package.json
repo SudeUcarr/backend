@@ -14,6 +14,8 @@
     "collect:persist": "node --experimental-strip-types --env-file=.env.local scripts/collect-internships.mjs --persist",
     "demo:create": "node --experimental-strip-types --env-file=.env.local scripts/create-demo-account.mjs --run",
     "test:integration": "node --experimental-strip-types --env-file=.env.local scripts/test-supabase.mjs --run",
+    "demo:reminders": "node --experimental-strip-types scripts/demonstrate-reminders.mjs",
+    "reminders:process": "node --experimental-strip-types --env-file-if-exists=.env.local scripts/demonstrate-reminders.mjs --live",
     "edge:prepare": "node scripts/prepare-edge.mjs",
     "lint": "oxlint src packages scripts"
   },
