@@ -26,3 +26,7 @@ services:
         sync: false
       - key: RESEND_API_KEY
         sync: false
+      - key: GOOGLE_PLACES_API_KEY
+        sync: false
+      - key: SPOONACULAR_API_KEY
+        sync: false

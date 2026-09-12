@@ -9,6 +9,7 @@ import {storageRoutes} from './modules/storage/routes.ts'
 import {internshipRoutes} from './modules/internships/routes.ts'
 import {placeRoutes} from './modules/places/routes.ts'
 import {occupancyRoutes} from './modules/occupancy/routes.ts'
+import {recipeRoutes} from './modules/recipes/routes.ts'
 
 export async function handleRequest(request: Request, env: RuntimeEnv): Promise<Response> {
   let cookies: Cookies | undefined
@@ -31,6 +32,7 @@ export async function handleRequest(request: Request, env: RuntimeEnv): Promise<
       || await internshipRoutes(request, config, cookies)
       || await placeRoutes(request, config)
       || await occupancyRoutes(request)
+      || await recipeRoutes(request, config)
       || json({error: {code: 'NOT_FOUND', message: 'API yolu veya istek yöntemi bulunamadı.'}}, 404)
   } catch (error) {
     const known = error instanceof ApiError

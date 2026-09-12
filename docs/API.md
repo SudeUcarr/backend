@@ -25,6 +25,7 @@ API kökü `/api`. Frontend `credentials: include` kullanır. Access/refresh tok
 | POST | /places/nearby | Demo dahil herkese açık; `{lat,lng,radius,category}`, sunucu Places anahtarı |
 | GET | /occupancy/demo | Demo dahil herkese açık; test örnekleri, raporlar ve kaynaklı kapasiteler; model ağırlıkları içermez |
 | POST | /occupancy/predict | Demo dahil herkese açık; `{timestamp,extraEntries?}`; backend'de mevcut an ve +60 dk çıkarımı |
+| POST | /recipes/find-by-ingredients | Demo dahil herkese açık; `{ingredients}` (İngilizce, 1–8 öge); sunucu Spoonacular anahtarıyla arar |
 
 CRUD izin listesi `src/modules/data/validation.ts` içindedir. Katalog, profiles ve reminder_jobs genel CRUD üzerinden değiştirilemez. Bildirimler yalnızca PATCH/read_at destekler. Mekan silme desteklenmez. `id`, `user_id`, `created_at`, `revision`, örnek etiketi ve ithal kaynak alanları API gövdesinden kabul edilmez. RLS ve sütun yetkileri ayrıca uygulanır.
 
@@ -33,6 +34,8 @@ Dosya depoları `notes` (PDF, en fazla 10 MB) ve `listing-images` (JPEG/PNG/WebP
 Mekan araması yalnızca cafe/restaurant/library, geçerli koordinatlar ve 500–5000 metre yarıçap kabul eder. En fazla 20 sonuç gelir; bilinmeyen fiyat/puan null kalır. Google sonuçları kalıcı saklanmaz. Üretimde bu herkese açık uç için ağ geçidinde hız/kota sınırı yapılandır.
 
 Yoğunluk tahmini yalnızca demo yanıtındaki kayıt saatlerini (`YYYY-MM-DDTHH:mm:ss`) ve 0–10.000 arasında tam sayı `extraEntries` kabul eder. Varsayılan ek giriş 0'dır. Yanıt `{timestamp,extraEntries,features,nowEstimate,futureEstimate,forecastTime}` biçimindedir. Gelecek saat için test verisi yoksa son iki alan `null` olur. Ham giriş dizileri, kişi sayımları ve başka alanlar girdi olarak kabul edilmez. Supabase veya Python kurulumu gerektirmez. Bu tarihsel ofis veri demosudur; canlı kampüs tahmini değildir. Ayrıntılar [ML rehberinde](ML.md).
+
+Tarif araması Spoonacular'ın `findByIngredients` uç noktasını sarmalar; anahtar yalnızca sunucudadır. `ingredients` İngilizce, 2–40 karakterlik harf/rakam/boşluk/tire dizileridir; Türkçe malzeme adı çevirisi frontend'de yapılır. Yanıt her tarif için `{id,title,image,usedCount,missedCount,missedIngredients,likes,url}` döner; `url` spoonacular.com'daki tarif sayfasına işaret eder, tarif adımları veya kalori bilgisi taşımaz.
 
 Hata biçimi:
 

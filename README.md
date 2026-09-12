@@ -23,6 +23,7 @@ SUPABASE_URL=
 SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 GOOGLE_PLACES_API_KEY=
+SPOONACULAR_API_KEY=
 ```
 
 Supabase kurulmadan sağlık ve ML demo uçları kullanılabilir. Gerçek hesap/veri için [kurulum rehberindeki](docs/SETUP.md) migration ve Auth ayarlarını tamamla. Normal kullanıcı erişimi kullanıcı JWT'siyle RLS kurallarını korur; service-role yalnızca import/yönetimde kullanılır.
