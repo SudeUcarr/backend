@@ -1,0 +1,13 @@
+{
+  "name": "@kampuskit/shared",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./types": "./src/types.ts",
+    "./domain": "./src/domain.ts",
+    "./seed": "./src/seed.ts",
+    "./api": "./src/api.ts",
+    "./occupancy": "./src/occupancy.ts"
+  }
+}

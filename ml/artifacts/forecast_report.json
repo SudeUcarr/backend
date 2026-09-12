@@ -1,0 +1,83 @@
+{
+  "horizonMinutes": 60,
+  "model": "RandomForestRegressor",
+  "features": [
+    "hour",
+    "weekday",
+    "entries15",
+    "entries30",
+    "entries60",
+    "entries120",
+    "entries240",
+    "entriesToday"
+  ],
+  "parameters": {
+    "trees": 80,
+    "maxDepth": 10,
+    "minSamplesLeaf": 5,
+    "seed": 42
+  },
+  "trainingSeconds": 1.118,
+  "candidates": [
+    {
+      "depth": 6,
+      "validation": {
+        "mae": 3.2906,
+        "rmse": 4.4794
+      }
+    },
+    {
+      "depth": 10,
+      "validation": {
+        "mae": 3.1671,
+        "rmse": 4.3963
+      }
+    }
+  ],
+  "test": {
+    "mae": 3.7922,
+    "rmse": 5.5211
+  },
+  "baselines": {
+    "holdCurrentEstimate": {
+      "mae": 6.0806,
+      "rmse": 8.2337
+    },
+    "clock": {
+      "mae": 5.5365,
+      "rmse": 8.1787
+    }
+  },
+  "split": {
+    "train": {
+      "rows": 5163,
+      "days": 108,
+      "from": "2015-08-26T07:45:00",
+      "to": "2016-02-12T18:45:00",
+      "lastTargetTime": "2016-02-12T19:45:00"
+    },
+    "validation": {
+      "rows": 1801,
+      "days": 36,
+      "from": "2016-02-16T08:30:00",
+      "to": "2016-04-07T19:00:00",
+      "lastTargetTime": "2016-04-07T20:00:00"
+    },
+    "test": {
+      "rows": 1955,
+      "days": 37,
+      "from": "2016-04-08T08:30:00",
+      "to": "2016-06-07T17:30:00",
+      "lastTargetTime": "2016-06-07T18:30:00"
+    }
+  },
+  "omittedRowsWithoutFutureLabel": 724,
+  "sourceSha256": "8c0e66933b28782008fef0579b251c9147737562c5c66d87feda4f8333ffd811",
+  "limitations": [
+    "Forecast uses only entry/time features at origin t; no entrances after t, no current/future occupancy as input.",
+    "Target is the recorded sensor count at exactly t+60 minutes on the same recorded day.",
+    "No forecast demonstration beyond recorded daily coverage; no invented closing-hour zeros.",
+    "Office data only; no campus, gym or exam-week training data.",
+    "Temporal holdout reuses the original experiment dates; model choice uses validation only."
+  ]
+}

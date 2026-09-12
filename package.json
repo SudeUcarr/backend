@@ -1,0 +1,34 @@
+{
+  "name": "@kampuskit/backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --experimental-strip-types --env-file-if-exists=.env.local --watch src/server.ts",
+    "build": "tsc --noEmit && vite build --config vite.config.ts",
+    "start": "node --experimental-strip-types --env-file-if-exists=.env.local src/server.ts",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "db:prepare": "node --experimental-strip-types scripts/prepare-database.mjs",
+    "seed:examples": "node --experimental-strip-types --env-file=.env.local scripts/seed-examples.mjs --run",
+    "collect:internships": "node --experimental-strip-types scripts/collect-internships.mjs",
+    "collect:persist": "node --experimental-strip-types --env-file=.env.local scripts/collect-internships.mjs --persist",
+    "demo:create": "node --experimental-strip-types --env-file=.env.local scripts/create-demo-account.mjs --run",
+    "test:integration": "node --experimental-strip-types --env-file=.env.local scripts/test-supabase.mjs --run",
+    "edge:prepare": "node scripts/prepare-edge.mjs",
+    "lint": "oxlint src packages scripts"
+  },
+  "dependencies": {
+    "@kampuskit/shared": "file:./packages/shared",
+    "@supabase/supabase-js": "^2.116.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/node": "^24.13.3",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=22.17.0"
+  }
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.local
+.artifacts/
+coverage/
+*.log
+.idea/
+.DS_Store
+ml/.venv/
+ml/__pycache__/
+ml/data/
+ml/artifacts/*.csv
+ml/artifacts/*.joblib

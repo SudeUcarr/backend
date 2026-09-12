@@ -1,0 +1,5 @@
+project_id = "kampuskit"
+
+[functions.sync-internships]
+# Authentication is checked with getUser inside the function; newer signing keys are supported.
+verify_jwt = false

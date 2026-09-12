@@ -1,0 +1,101 @@
+{
+  "model": "RandomForestRegressor",
+  "parameters": {
+    "trees": 80,
+    "maxDepth": 10,
+    "minSamplesLeaf": 5,
+    "seed": 42
+  },
+  "trainingSeconds": 0.588,
+  "audit": {
+    "rawRows": 57011,
+    "rawDays": 181,
+    "sourceMin": "2015-08-26 07:41:12",
+    "sourceMax": "2016-06-07 18:30:47",
+    "sourceMaxOccupancy": 54,
+    "sameSecondEvents": 1326,
+    "sha256": "8c0e66933b28782008fef0579b251c9147737562c5c66d87feda4f8333ffd811",
+    "usedRoom": "Bosch Office 1 / Main Entrance",
+    "omittedRooms": [
+      "Clemente",
+      "Warhol"
+    ],
+    "coverage": "Only recorded days, from first to last event; 15-minute right-end snapshots. Unrecorded days are not zeros.",
+    "label": "Last observed sensor occupancy at or before timestamp; not manually verified headcount.",
+    "entranceReconstruction": "Positive sequential occupancy deltas (including same-second events); initial daily count treated as entries from empty start. Sensor-derived proxy, not raw card swipes."
+  },
+  "features": [
+    "hour",
+    "weekday",
+    "entries15",
+    "entries30",
+    "entries60",
+    "entries120",
+    "entries240",
+    "entriesToday"
+  ],
+  "split": {
+    "train": {
+      "rows": 5595,
+      "days": 108,
+      "from": "2015-08-26T07:45:00",
+      "to": "2016-02-12T19:45:00"
+    },
+    "validation": {
+      "rows": 1945,
+      "days": 36,
+      "from": "2016-02-16T08:30:00",
+      "to": "2016-04-07T20:00:00"
+    },
+    "test": {
+      "rows": 2103,
+      "days": 37,
+      "from": "2016-04-08T08:30:00",
+      "to": "2016-06-07T18:30:00"
+    }
+  },
+  "candidates": [
+    {
+      "depth": 6,
+      "validation": {
+        "mae": 2.678,
+        "rmse": 3.927
+      }
+    },
+    {
+      "depth": 10,
+      "validation": {
+        "mae": 2.5532,
+        "rmse": 3.7742
+      }
+    }
+  ],
+  "test": {
+    "mae": 3.0777,
+    "rmse": 4.7465
+  },
+  "baselines": {
+    "constant": {
+      "mae": 10.6633,
+      "rmse": 12.8155
+    },
+    "clock": {
+      "mae": 5.1904,
+      "rmse": 7.8889
+    },
+    "fixedWindow": {
+      "window": "entries120",
+      "coefficient": 0.5780779563353712,
+      "mae": 4.1372,
+      "rmse": 5.9039
+    }
+  },
+  "limitations": [
+    "Office data, not university/cafeteria data.",
+    "Source sensor count is an estimate, not independent manual ground truth.",
+    "Derived entrance events share the sensor source with labels.",
+    "No exit or occupancy feature is supplied at inference.",
+    "No campus accuracy or live occupancy claim. Capacity is not a model feature.",
+    "Occupancy divided by seats measures crowd relative to seats, not exact occupied-seat percentage."
+  ]
+}
