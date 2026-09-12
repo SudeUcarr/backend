@@ -62,3 +62,9 @@ Derleme yalnızca bu reponun `dist/index.js` Worker çıktısını üretir. Node
 Üretimde `NODE_ENV=production`, `APP_ORIGIN=https://FRONTEND_DOMAIN` ve uygun HOST/PORT ayarlanır. HTTPS reverse proxy, frontend origin'indeki `/api/` ve `/api/auth/callback` yollarını bu servise aktarmalıdır. Sırlar frontend build'ine veya Git'e eklenmez.
 
 ML çalışma zamanı Python gerektirmez. Yeniden eğitim [ml/README.md](ml/README.md), veri/model atıfları [ml/DATA_LICENSE.md](ml/DATA_LICENSE.md), uçlar [docs/API.md](docs/API.md) içinde açıklanır. GitHub Actions bu reponun test/lint/build kontrollerini bağımsız çalıştırır.
+
+## Render
+
+[render.yaml](render.yaml) ücretsiz Frankfurt Node servisini tanımlar. Build komutu `npm ci --include=dev && npm run build`, başlangıç `npm start`. Render'ın verdiği `PORT` kullanılır; `HOST=0.0.0.0`, `NODE_ENV=production` ve `APP_ORIGIN=https://frontend-ll4u.onrender.com` ayarlanır. `/api/health` servisin durumunu bildirir.
+
+Render Environment bölümünde `SUPABASE_URL` ve `SUPABASE_PUBLISHABLE_KEY` ayarlanmalıdır. Sırlar Git'e yazılmaz. Supabase Auth Site URL: `https://frontend-ll4u.onrender.com`; izin verilen dönüş adresi: `https://frontend-ll4u.onrender.com/api/auth/callback`. Migration ve diğer anahtarlar için [kurulum](docs/SETUP.md) rehberini kullan. Bu değerler olmadan demo ve ML çalışır; hesap ve kişisel veri hizmetleri etkinleşmez.

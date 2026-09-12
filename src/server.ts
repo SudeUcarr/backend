@@ -2,7 +2,7 @@ import {createServer} from 'node:http'
 import {Readable} from 'node:stream'
 import {handleRequest} from './app.ts'
 
-const host = process.env.HOST || '127.0.0.1', port = Number(process.env.PORT || 3001)
+const host = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1'), port = Number(process.env.PORT || 3001)
 const server = createServer(async (incoming, outgoing) => {
   try {
     const headers = new Headers()

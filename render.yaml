@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: kampuskit-backend
+    runtime: node
+    repo: https://github.com/SudeUcarr/backend
+    branch: main
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: APP_ORIGIN
+        value: https://frontend-ll4u.onrender.com
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
