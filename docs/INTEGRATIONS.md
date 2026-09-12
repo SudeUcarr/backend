@@ -6,8 +6,13 @@ Stajlar şirketlerin kamuya açık iş ilanı API’lerinden alınır ve kaynak 
 
 ## Staj kaynakları
 
-| Adaptör | Pano | Şirket |
+| Adaptör | Pano | Şirket / Platform |
 |---|---|---|
+| LinkedIn | turkey | LinkedIn Jobs (Türkiye Stajyer İlanları) |
+| Toptalent | staj | Toptalent (Staj İlanları) |
+| WeWorkRemotely | programming | We Work Remotely (Remote Yazılım / Staj) |
+| Remotive | intern | Remotive (Remote Staj İlanları) |
+| Kariyer | stajyer | Kariyer.net (Stajyer İlanları) |
 | Lever | insiderone | Insider One |
 | Lever | lalamove | Lalamove |
 | Lever | peakgames | Peak |
@@ -15,13 +20,13 @@ Stajlar şirketlerin kamuya açık iş ilanı API’lerinden alınır ve kaynak 
 | Greenhouse | constructortech | Constructor |
 | Greenhouse | udemybedi | Udemy |
 
-Kaynak tanımları `src/integrations/internship-sources.ts` içindedir. Lever için kamuya açık postings uç noktası, Greenhouse için Job Board API kullanılır. Bir panoda staj bulunmaması hata değildir; sıfır sonuç da başarılı kontrol olarak kaydedilir. İlk kontrolde 10 ilan bulunmuştur; sonradan aynı sayının korunması beklenmez.
+Kaynak tanımları `src/integrations/internship-sources.ts` içindedir. LinkedIn için kamuya açık `seeMoreJobPostings` misafir arama uç noktası, Toptalent ve Kariyer.net için staj sayfaları, WeWorkRemotely için genel RSS akışları, Remotive için public JSON API, Lever için postings ve Greenhouse için Job Board API kullanılır. Bir panoda staj bulunmaması hata değildir; sıfır sonuç da başarılı kontrol olarak kaydedilir.
 
 ### Normalleştirme
 
 Başlıkta intern, internship, stajyer, staj veya trainee eşleşmesi aranır. “Internal” gibi farklı sözcüklerin yanlış eşleşmemesi için kelime sınırları kullanılır. Kaynakta bulunmayan son tarih ve çalışma biçimi uydurulmaz. Şirket, konum, pozisyon ve kaynak bağlantısıyla kısa bir olgusal özet üretilir; ilan açıklamalarının tamamı kopyalanmaz.
 
-Her ilanın sağlayıcı/pano ve kaynak kimliği benzersizdir. Aynı iş tekrar çekildiğinde upsert yapılır, ikinci ilan oluşmaz. Başvuru URL’leri beklenen Lever/Greenhouse alan adlarıyla sınırlandırılır. Keyfi URL verip sunucunun herhangi bir iç/dış adrese istek atması mümkün değildir.
+Her ilanın sağlayıcı/pano ve kaynak kimliği benzersizdir. Aynı iş tekrar çekildiğinde upsert yapılır, ikinci ilan oluşmaz. Başvuru URL’leri beklenen sağlayıcı alan adlarıyla (LinkedIn, Toptalent, WeWorkRemotely, Remotive, Kariyer.net, Lever, Greenhouse) sınırlandırılır. Keyfi URL verip sunucunun herhangi bir iç/dış adrese istek atması mümkün değildir.
 
 Lever sayfaları limit/skip ile dolaşılır. İstek zaman aşımı, azami sayfa sayısı, bozuk JSON ve yanlış kaynak şekli kontrol edilir. Kaynak başarısız olduğunda mevcut ilanlar korunur. Kaynak eksiksiz okunduktan sonra önceki kontrolden kalıp artık görünmeyen ilanlar `closed` olur.
 

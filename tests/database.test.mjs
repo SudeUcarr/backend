@@ -22,6 +22,7 @@ test('Supabase schema, ownership, private files and reminder lifecycle', async t
   await db.exec(await readFile(new URL('../supabase/migrations/202609120001_core.sql',import.meta.url),'utf8'))
   await db.exec(await readFile(new URL('../supabase/migrations/202609120002_discovery.sql',import.meta.url),'utf8'))
   await db.exec(await readFile(new URL('../supabase/migrations/202609120003_campus_discovery.sql',import.meta.url),'utf8'))
+  await db.exec(await readFile(new URL('../supabase/migrations/202609120004_discovery_sources.sql',import.meta.url),'utf8'))
   await db.exec(`
     insert into public.universities values('${id(1)}','Test Üniversitesi A','A','İstanbul'),('${id(2)}','Test Üniversitesi B','B','İstanbul');
     insert into public.campuses values('${id(3)}','${id(1)}','Merkez');
@@ -100,6 +101,7 @@ test('Supabase schema, ownership, private files and reminder lifecycle', async t
     await db.exec('reset role;set role service_role')
     assert.equal((await db.query(`select public.claim_ingestion('lever:lalamove') as ok`)).rows[0].ok,true)
     assert.equal((await db.query(`select public.claim_ingestion('lever:lalamove') as ok`)).rows[0].ok,false)
+    assert.equal((await db.query(`select public.claim_ingestion('linkedin:turkey') as ok`)).rows[0].ok,true)
     await assert.rejects(()=>db.exec(`select public.claim_ingestion('arbitrary-url')`))
   })
   await db.close()
